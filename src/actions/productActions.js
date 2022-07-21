@@ -21,7 +21,7 @@ import { PRODUCT_CREATE_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS,
     });
     try {
       const { data } = await Axios.get(
-        `/api/products?pageNumber=${pageNumber}&seller=${seller}&name=${name}&category=${category}&min=${min}&max=${max}&rating=${rating}&order=${order}`
+        `http://3.110.148.41:8000/api/products?pageNumber=${pageNumber}&seller=${seller}&name=${name}&category=${category}&min=${min}&max=${max}&rating=${rating}&order=${order}`
       );
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
@@ -34,7 +34,7 @@ export const listProductCategories = () => async (dispatch) =>{
       type: PRODUCT_CATEGORY_LIST_REQUEST
   });
   try {
-      const { data } = await Axios.get(`/api/products/categories`);
+      const { data } = await Axios.get(`http://3.110.148.41:8000/api/products/categories`);
       dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
   } catch (error) {
       dispatch({ type:PRODUCT_CATEGORY_LIST_FAIL, payload: error.message });
@@ -46,7 +46,7 @@ export const detailsProduct = (productId) => async (dispatch) =>{
     dispatch({
         type: PRODUCT_DETAILS_REQUEST, payload: productId });
     try {
-        const { data } = await Axios.get(`/api/products/${productId}`);
+        const { data } = await Axios.get(`http://3.110.148.41:8000/api/products/${productId}`);
         dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ 
@@ -62,7 +62,7 @@ export const detailsProduct = (productId) => async (dispatch) =>{
 export const addProduct = (name, seller, image, category, price, brand, countInStock, rating, numReview, description) => async (dispatch) => {
   dispatch({ type: ADD_PRODUCT_REQUEST, payload: { name, seller, image, category, price, brand, countInStock, rating, numReview, description } });
   try {
-    const { data } = await Axios.post('/api/products/create', { name, seller, image, category, price, brand, countInStock, rating, numReview, description });
+    const { data } = await Axios.post('http://3.110.148.41:8000/api/products/create', { name, seller, image, category, price, brand, countInStock, rating, numReview, description });
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: data });
     localStorage.setItem('productInfo', JSON.stringify(data));
   } catch (error) {
@@ -83,7 +83,7 @@ export const createProduct = () => async (dispatch, getState) => {
   } = getState();
   try {
     const { data } = await Axios.post(
-      '/api/products',
+      'http://3.110.148.41:8000/api/products',
       {},
       {
         headers: { Authorization: `Sanju ${userInfo.token}` },
@@ -108,7 +108,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`/api/products/${product._id}`, product, {
+    const { data } = await Axios.put(`http://3.110.148.41:8000/api/products/${product._id}`, product, {
       headers: { Authorization: `Sanju ${userInfo.token}` },
     });
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
@@ -129,7 +129,7 @@ export const createReview = (productId, review) => async (dispatch, getState) =>
   } = getState();
   try {
     const { data } = await Axios.post(
-      `/api/products/${productId}/reviews`,
+      `http://3.110.148.41:8000/api/products/${productId}/reviews`,
       review,
       {
         headers: { Authorization: `Sanju ${userInfo.token}` },
